@@ -103,7 +103,9 @@ export const api = {
         if (!response.ok) {
             throw new Error('Failed to fetch stations');
         }
-        return response.json();
+        const data = await response.json();
+        // Handle DRF pagination (returns { results: [...] }) or direct array
+        return Array.isArray(data) ? data : (data.results || []);
     },
 
     async createStation(station: Omit<PollingStation, 'id'>): Promise<PollingStation> {

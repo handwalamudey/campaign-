@@ -188,7 +188,10 @@ export const useCampaignStore = create<CampaignState>()(
     },
 
     getMetrics: () => {
-      const { voters, stations, fieldReports } = get();
+      const state = get();
+      const voters = Array.isArray(state.voters) ? state.voters : [];
+      const stations = Array.isArray(state.stations) ? state.stations : [];
+      const fieldReports = Array.isArray(state.fieldReports) ? state.fieldReports : [];
 
       // 1. Total Registered Voters: Now based on actual captured voters
       // Note: If you want this to represent the Ward's total population, you'd use station.registeredVoters
