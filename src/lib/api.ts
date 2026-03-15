@@ -1,7 +1,7 @@
 import { Voter, PollingStation } from '@/types/campaign';
 import { useAuthStore } from '@/store/authStore';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'https://back-production-30ef.up.railway.app/api';
 
 const getHeaders = () => {
     const token = useAuthStore.getState().token;
