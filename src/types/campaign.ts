@@ -1,4 +1,3 @@
-export type AgeGroup = '18-25' | '26-35' | '36-50' | '50+';
 
 export type VoterMood = 'positive' | 'neutral' | 'negative';
 
@@ -18,7 +17,6 @@ export interface Voter {
   dob?: number;
   rG?: boolean;
   supportProbability?: number;
-  ageGroup: AgeGroup;
   footballClub?: string;
   tribe?: string;
   ward?: string;
@@ -54,7 +52,6 @@ export interface DemographicEntry {
   id: string;
   pollingStationId: string;
   pollingStationName: string;
-  ageGroup: AgeGroup;
   clan: string;
   estimatedVoters: number;
   supportLevel: number;
@@ -68,7 +65,6 @@ export interface FieldReport {
   pollingStationId: string;
   pollingStationName: string;
   dominantClan: string;
-  dominantAgeGroup: AgeGroup;
   rallyAttendanceEstimate: number;
   voterMood: VoterMood;
   notes: string;
@@ -98,7 +94,6 @@ export interface PollingStationAnalysis {
   projectedSupport: number;
   turnoutRisk: 'low' | 'medium' | 'high';
   dominantClan: string;
-  dominantAgeGroup: AgeGroup;
   recommendation: string;
 }
 
@@ -111,6 +106,5 @@ export const CLANS = [
   'Other'
 ] as const;
 
-export const AGE_GROUPS: AgeGroup[] = ['18-25', '26-35', '36-50', '50+'];
 
 export const POLLING_STATIONS: PollingStation[] = [];

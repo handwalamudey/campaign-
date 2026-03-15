@@ -1,6 +1,5 @@
 import { MainLayout } from '@/components/layout/MainLayout';
 import { useCampaignStore } from '@/store/campaignStore';
-import { AGE_GROUPS } from '@/types/campaign';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   BarChart,
@@ -45,20 +44,6 @@ const Analytics = () => {
     };
   });
 
-  // Aggregate by age group
-  const ageGroupData = AGE_GROUPS.map((group) => {
-    const groupDemos = demographics.filter((d) => d.ageGroup === group);
-    const totalVoters = groupDemos.reduce((sum, d) => sum + d.estimatedVoters, 0);
-    const avgSupport = groupDemos.length > 0
-      ? groupDemos.reduce((sum, d) => sum + d.supportLevel, 0) / groupDemos.length
-      : 50;
-
-    return {
-      name: group,
-      voters: totalVoters,
-      support: Math.round(avgSupport),
-    };
-  });
 
   // Aggregate by clan
   const clanMap = new Map<string, { voters: number; support: number; count: number }>();
@@ -102,7 +87,6 @@ const Analytics = () => {
     .slice(0, 3)
     .map((d) => ({
       station: d.pollingStationName,
-      ageGroup: d.ageGroup,
       clan: d.clan,
       voters: d.estimatedVoters,
       support: d.supportLevel,
@@ -250,38 +234,6 @@ const Analytics = () => {
             </CardContent>
           </Card>
 
-          {/* Support by Age Group */}
-          <Card className="border-border bg-card">
-            <CardHeader>
-              <CardTitle className="text-base font-medium">
-                Support by Age Group
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {ageGroupData.some((d) => d.voters > 0) ? (
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={ageGroupData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" />
-                    <YAxis stroke="hsl(var(--muted-foreground))" />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                      }}
-                    />
-                    <Bar dataKey="support" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name="Support %" />
-                    <Bar dataKey="voters" fill="hsl(var(--info))" radius={[4, 4, 0, 0]} name="Est. Voters" />
-                  </BarChart>
-                </ResponsiveContainer>
-              ) : (
-                <div className="flex h-[300px] items-center justify-center text-muted-foreground">
-                  Add demographic data to see charts
-                </div>
-              )}
-            </CardContent>
-          </Card>
 
           {/* Voter Mood Distribution */}
           <Card className="border-border bg-card">
@@ -383,10 +335,6 @@ const Analytics = () => {
                       </span>
                     </div>
                     <div className="mt-3 space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Age Group:</span>
-                        <span className="font-medium">{combo.ageGroup}</span>
-                      </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Clan:</span>
                         <span className="font-medium">{combo.clan}</span>

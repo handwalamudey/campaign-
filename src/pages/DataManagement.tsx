@@ -38,7 +38,6 @@ const DataManagement = () => {
 
   const [formData, setFormData] = useState({
     pollingStationId: '',
-    ageGroup: '' as AgeGroup | '',
     clan: '',
     estimatedVoters: '',
     supportLevel: '',
@@ -54,7 +53,7 @@ const DataManagement = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.pollingStationId || !formData.ageGroup || !formData.clan) {
+    if (!formData.pollingStationId || !formData.clan) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -64,7 +63,6 @@ const DataManagement = () => {
     addDemographic({
       pollingStationId: formData.pollingStationId,
       pollingStationName: station?.name || '',
-      ageGroup: formData.ageGroup as AgeGroup,
       clan: formData.clan,
       estimatedVoters: parseInt(formData.estimatedVoters) || 0,
       supportLevel: parseFloat(formData.supportLevel) || 50,
@@ -75,7 +73,6 @@ const DataManagement = () => {
 
     setFormData({
       pollingStationId: '',
-      ageGroup: '',
       clan: '',
       estimatedVoters: '',
       supportLevel: '',
@@ -136,7 +133,6 @@ const DataManagement = () => {
             entries.push({
               pollingStationId: station.id,
               pollingStationName: station.name,
-              ageGroup: row['age_group'] as AgeGroup,
               clan: row['clan'],
               estimatedVoters: parseInt(row['estimated_voters']) || 0,
               supportLevel: parseFloat(row['support_level']) || 50,
@@ -160,10 +156,10 @@ const DataManagement = () => {
   };
 
   const downloadTemplate = () => {
-    const headers = ['polling_station', 'age_group', 'clan', 'estimated_voters', 'support_level', 'turnout_likelihood'];
+    const headers = ['polling_station', 'clan', 'estimated_voters', 'support_level', 'turnout_likelihood'];
     const sampleData = [
-      ['Garissa Primary School', '18-25', 'Ogaden', '500', '65', '70'],
-      ['Township Secondary', '26-35', 'Abdalla', '350', '55', '60'],
+      ['Garissa Primary School', 'Ogaden', '500', '65', '70'],
+      ['Township Secondary', 'Abdalla', '350', '55', '60'],
     ];
 
     const csvContent = [headers.join(','), ...sampleData.map(row => row.join(','))].join('\n');
@@ -371,24 +367,6 @@ const DataManagement = () => {
                   </Select>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="ageGroup">Age Group *</Label>
-                  <Select
-                    value={formData.ageGroup}
-                    onValueChange={(value) => setFormData({ ...formData, ageGroup: value as AgeGroup })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select age group" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {AGE_GROUPS.map((group) => (
-                        <SelectItem key={group} value={group}>
-                          {group}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="clan">Clan *</Label>
@@ -500,7 +478,6 @@ const DataManagement = () => {
                 </h4>
                 <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-muted-foreground">
                   <li><code className="text-primary">polling_station</code> - Name of the polling station</li>
-                  <li><code className="text-primary">age_group</code> - One of: 18-25, 26-35, 36-50, 50+</li>
                   <li><code className="text-primary">clan</code> - Clan name</li>
                   <li><code className="text-primary">estimated_voters</code> - Number of voters</li>
                   <li><code className="text-primary">support_level</code> - Percentage (0-100)</li>
@@ -525,7 +502,6 @@ const DataManagement = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead>Polling Station</TableHead>
-                        <TableHead>Age Group</TableHead>
                         <TableHead>Clan</TableHead>
                         <TableHead className="text-right">Voters</TableHead>
                         <TableHead className="text-right">Support</TableHead>
@@ -539,7 +515,6 @@ const DataManagement = () => {
                           <TableCell className="font-medium">
                             {entry.pollingStationName}
                           </TableCell>
-                          <TableCell>{entry.ageGroup}</TableCell>
                           <TableCell>{entry.clan}</TableCell>
                           <TableCell className="text-right">
                             {entry.estimatedVoters.toLocaleString()}
