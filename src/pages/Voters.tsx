@@ -51,7 +51,7 @@ export default function Voters() {
   const { isSidebarCollapsed } = useUIStore();
   const [searchParams] = useSearchParams();
   const isListView = searchParams.get('view') === 'list';
-  const { voters, stations, addVoter, deleteVoter, addStation, fetchVoters, deleteAllVoters } = useCampaignStore();
+  const { voters, stations, addVoter, deleteVoter, addStation, fetchVoters, deleteAllVoters, isLoading, error } = useCampaignStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterClan, setFilterClan] = useState<string>('all');
   const [filterStation, setFilterStation] = useState<string>('all');
@@ -93,6 +93,12 @@ export default function Voters() {
     // Ensure we always load voters (including any created via bulk upload from elsewhere)
     fetchVoters();
   }, [fetchVoters]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error loading data: ${error}`);
+    }
+  }, [error]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -638,7 +644,28 @@ export default function Voters() {
               </div>
             </CardHeader>
             <CardContent>
-              {filteredVoters.length === 0 ? (
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4" />
+                  <p className="text-muted-foreground">Loading voters...</p>
+                </div>
+              ) : error ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <X className="h-12 w-12 text-destructive/50" />
+                  <p className="mt-4 text-destructive font-medium">Failed to load voters</p>
+                  <p className="text-sm text-muted-foreground/70 max-w-md mx-auto">
+                    {error}. Check your internet connection or backend status.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4"
+                    onClick={() => fetchVoters()}
+                  >
+                    <Undo2 className="h-4 w-4 mr-2" />
+                    Retry
+                  </Button>
+                </div>
+              ) : filteredVoters.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Users className="h-12 w-12 text-muted-foreground/50" />
                   <p className="mt-4 text-muted-foreground">No voters found</p>
