@@ -45,7 +45,9 @@ export const api = {
         if (!response.ok) {
             throw new Error('Failed to fetch voters');
         }
-        return response.json();
+        const data = await response.json();
+        // Handle DRF pagination (returns { results: [...] }) or direct array
+        return Array.isArray(data) ? data : (data.results || []);
     },
 
     async createVoter(voter: Omit<Voter, 'id' | 'createdAt' | 'updatedAt'>): Promise<Voter> {
