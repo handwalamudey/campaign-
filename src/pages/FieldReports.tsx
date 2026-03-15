@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { useCampaignStore } from '@/store/campaignStore';
-import { CLANS, AGE_GROUPS, AgeGroup, VoterMood } from '@/types/campaign';
+import { CLANS, VoterMood } from '@/types/campaign';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -46,7 +46,6 @@ const FieldReports = () => {
   const [formData, setFormData] = useState({
     pollingStationId: '',
     dominantClan: '',
-    dominantAgeGroup: '' as AgeGroup | '',
     rallyAttendanceEstimate: '',
     voterMood: '' as VoterMood | '',
     notes: '',
@@ -67,7 +66,6 @@ const FieldReports = () => {
       pollingStationId: formData.pollingStationId,
       pollingStationName: station?.name || '',
       dominantClan: formData.dominantClan,
-      dominantAgeGroup: (formData.dominantAgeGroup || '26-35') as AgeGroup,
       rallyAttendanceEstimate: parseInt(formData.rallyAttendanceEstimate) || 0,
       voterMood: formData.voterMood as VoterMood,
       notes: formData.notes,
@@ -79,7 +77,6 @@ const FieldReports = () => {
     setFormData({
       pollingStationId: '',
       dominantClan: '',
-      dominantAgeGroup: '',
       rallyAttendanceEstimate: '',
       voterMood: '',
       notes: '',
@@ -159,22 +156,6 @@ const FieldReports = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="dominantAgeGroup">Dominant Age Group</Label>
-                    <Select
-                      value={formData.dominantAgeGroup}
-                      onValueChange={(value) => setFormData({ ...formData, dominantAgeGroup: value as AgeGroup })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select age group" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {AGE_GROUPS.map((group) => (
-                          <SelectItem key={group} value={group}>
-                            {group}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
                   </div>
                 </div>
 
@@ -281,7 +262,6 @@ const FieldReports = () => {
                                 {report.dominantClan}
                               </span>
                               <span className="rounded-md bg-muted px-2 py-0.5">
-                                {report.dominantAgeGroup}
                               </span>
                               {report.rallyAttendanceEstimate > 0 && (
                                 <span className="rounded-md bg-muted px-2 py-0.5">

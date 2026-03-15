@@ -123,8 +123,11 @@ export default function Voters() {
     }
 
     try {
-      const clan = formData.clan || 'N/A';
-      const pollingStationName = formData.pollingStationName || 'GENERAL';
+      // Logic for determining station and other key fields
+      const tribe = formData.tribe || '';
+      const clan = formData.clan || tribe || 'N/A';
+      
+      const pollingStationName = (formData.pollingStationName || formData.pollingCenter || 'GENERAL').trim();
       const location = formData.location || 'N/A';
 
       let stationId = '';
@@ -331,24 +334,70 @@ export default function Voters() {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="footballClub">Football Club</Label>
-                    <Input
-                      id="footballClub"
-                      value={formData.footballClub}
-                      onChange={(e) => setFormData({ ...formData, footballClub: e.target.value })}
-                      placeholder="e.g., DESERT COMMANDOS"
-                    />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="footballClub">Football Club</Label>
+                      <Input
+                        id="footballClub"
+                        value={formData.footballClub}
+                        onChange={(e) => setFormData({ ...formData, footballClub: e.target.value })}
+                        placeholder="e.g., COMMANDOS"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="tribe">Tribe</Label>
+                      <Input
+                        id="tribe"
+                        value={formData.tribe}
+                        onChange={(e) => setFormData({ ...formData, tribe: e.target.value })}
+                        placeholder="e.g., Murule"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="ward">Ward</Label>
-                    <Input
-                      id="ward"
-                      value={formData.ward}
-                      onChange={(e) => setFormData({ ...formData, ward: e.target.value })}
-                      placeholder="e.g., Township"
-                    />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="clan">Clan</Label>
+                      <Input
+                        id="clan"
+                        value={formData.clan}
+                        onChange={(e) => setFormData({ ...formData, clan: e.target.value })}
+                        placeholder="Enter clan"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="stream">Stream</Label>
+                      <Input
+                        id="stream"
+                        value={formData.stream}
+                        onChange={(e) => setFormData({ ...formData, stream: e.target.value })}
+                        placeholder="e.g., 1"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="ward">Ward</Label>
+                      <Input
+                        id="ward"
+                        value={formData.ward}
+                        onChange={(e) => setFormData({ ...formData, ward: e.target.value })}
+                        placeholder="e.g., Township"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="location">Location</Label>
+                      <Input
+                        id="location"
+                        value={formData.location}
+                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                        placeholder="Enter location"
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -368,6 +417,16 @@ export default function Voters() {
                       value={formData.mobilizedBy}
                       onChange={(e) => setFormData({ ...formData, mobilizedBy: e.target.value })}
                       placeholder="e.g., Anwar"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="notes">Notes</Label>
+                    <Input
+                      id="notes"
+                      value={formData.notes}
+                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                      placeholder="Extra information"
                     />
                   </div>
 
