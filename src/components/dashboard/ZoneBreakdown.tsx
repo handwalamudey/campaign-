@@ -24,7 +24,7 @@ export function ZoneBreakdown({ townshipVoters, nrVoters, otherVoters }: ZoneBre
       category: 'township'
     },
     {
-      label: 'NR Voters',
+      label: 'Voters Awaiting Registration',
       value: nrVoters,
       icon: AlertTriangle,
       color: 'text-warning',
@@ -34,7 +34,7 @@ export function ZoneBreakdown({ townshipVoters, nrVoters, otherVoters }: ZoneBre
       category: 'nr'
     },
     {
-      label: 'Other Voters',
+      label: 'Voters Awaiting Transfer',
       value: otherVoters,
       icon: Target,
       color: 'text-primary',

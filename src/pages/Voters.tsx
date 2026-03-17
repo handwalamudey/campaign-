@@ -153,24 +153,29 @@ export default function Voters() {
         toast.success(`Created new polling station: ${newStation.name}`);
       }
 
+      const formatNR = (val: any) => {
+        const s = String(val || '').trim();
+        return (s === '' || s.toLowerCase() === 'nr') ? 'NR' : s;
+      };
+
       const voterPayload = {
         name: formData.name,
         idNumber: formData.idNumber,
-        phoneNumber: formData.phoneNumber || undefined,
+        phoneNumber: formatNR(formData.phoneNumber),
         dob: formData.dob ? Number(formData.dob) : undefined,
         rG: Boolean(formData.rG),
-        footballClub: formData.footballClub || undefined,
-        tribe: formData.tribe || undefined,
-        ward: formData.ward || undefined,
-        pollingCenter: formData.pollingCenter || undefined,
-        stream: formData.stream || undefined,
-        mobilizedBy: formData.mobilizedBy || undefined,
-        clan,
+        footballClub: formatNR(formData.footballClub),
+        tribe: formatNR(formData.tribe),
+        ward: formatNR(formData.ward),
+        pollingCenter: formatNR(formData.pollingCenter),
+        stream: formatNR(formData.stream),
+        mobilizedBy: formatNR(formData.mobilizedBy),
+        clan: formatNR(clan),
         pollingStationId: stationId,
-        pollingStationName,
-        location,
+        pollingStationName: formatNR(pollingStationName),
+        location: formatNR(location),
         status: formData.status,
-        notes: formData.notes || undefined,
+        notes: formatNR(formData.notes),
       };
 
       if (isEditing && editingVoterId) {
@@ -202,8 +207,8 @@ export default function Voters() {
       });
       setIsEditing(false);
       setEditingVoterId(null);
-    } catch (error) {
-      toast.error(isEditing ? 'Failed to update voter' : 'Failed to add voter');
+    } catch (error: any) {
+      toast.error(error.message || (isEditing ? 'Failed to update voter' : 'Failed to add voter'));
     }
   };
 

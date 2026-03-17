@@ -58,7 +58,8 @@ export const api = {
         });
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.detail || 'Failed to create voter');
+            const message = errorData.idNumber?.[0] || errorData.detail || 'Failed to create voter';
+            throw new Error(message);
         }
         return response.json();
     },
@@ -71,7 +72,8 @@ export const api = {
         });
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.detail || 'Failed to update voter');
+            const message = errorData.idNumber?.[0] || errorData.detail || 'Failed to update voter';
+            throw new Error(message);
         }
         return response.json();
     },

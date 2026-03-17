@@ -193,16 +193,8 @@ export const useCampaignStore = create<CampaignState>()(
       const stations = Array.isArray(state.stations) ? state.stations : [];
       const fieldReports = Array.isArray(state.fieldReports) ? state.fieldReports : [];
 
-      // 1. Total Registered Voters: Now based on actual captured voters
-      // Note: If you want this to represent the Ward's total population, you'd use station.registeredVoters
-      // But for a campaign CRM, it usually makes sense to track *our* captured voters.
-      // However, if the user explicitly enters "2500" for a station capacity, we might want that.
-      // Given the user feedback "in registered voter it says zero", they likely expect the count of people they added.
-      // We'll calculate total from voters list + any manually set station capacities that are larger than voter counts?
-      // Let's stick to voters.length as the primary "Registered in App" metric for now, 
-      // or we can show "Captured Voters" vs "Total Ward Size".
-      // User asked "Registered Voters". I will use voters.length for now as it's the specific complaint.
-      const totalRegisteredVoters = voters.length;
+      // 1. Total Registered Voters: Now based on actual captured voters in Township Ward only.
+      const totalRegisteredVoters = voters.filter(v => (v.ward || '').trim().toLowerCase() === 'township').length;
 
       // 2. Win Probability & Support
       // Calculate based on individual voter status

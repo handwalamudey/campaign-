@@ -12,6 +12,7 @@ import DataManagement from "./pages/DataManagement";
 import FieldReports from "./pages/FieldReports";
 import Analytics from "./pages/Analytics";
 import Mobilizers from "./pages/Mobilizers";
+import Tribes from "./pages/Tribes";
 import Settings from "./pages/Settings";
 
 import Login from "./pages/Login";
@@ -54,6 +55,11 @@ const App = () => {
             <Route path="/mobilizers" element={
               <ProtectedRoute>
                 <Mobilizers />
+              </ProtectedRoute>
+            } />
+            <Route path="/tribes" element={
+              <ProtectedRoute>
+                <Tribes />
               </ProtectedRoute>
             } />
             <Route path="/data" element={
