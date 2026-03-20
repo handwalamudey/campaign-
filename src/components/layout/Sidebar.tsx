@@ -19,7 +19,7 @@ const navItems: { to: string; icon: any; label: string; allowedRoles?: UserRole[
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/voters', icon: Users, label: 'Voters' },
   { to: '/mobilizers', icon: TrendingUp, label: 'Mobilizers' },
-  { to: '/tribes', icon: Users, label: 'Tribes' },
+  { to: '/clans', icon: Users, label: 'Clans' },
   { to: '/data', icon: Database, label: 'Data Management', allowedRoles: ['admin', 'aspirant'] },
   { to: '/reports', icon: FileText, label: 'Field Reports' },
   { to: '/analytics', icon: BarChart3, label: 'Analytics', allowedRoles: ['admin', 'aspirant'] },

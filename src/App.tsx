@@ -12,7 +12,7 @@ import DataManagement from "./pages/DataManagement";
 import FieldReports from "./pages/FieldReports";
 import Analytics from "./pages/Analytics";
 import Mobilizers from "./pages/Mobilizers";
-import Tribes from "./pages/Tribes";
+import Clans from "./pages/Clans";
 import Settings from "./pages/Settings";
 
 import Login from "./pages/Login";
@@ -57,9 +57,9 @@ const App = () => {
                 <Mobilizers />
               </ProtectedRoute>
             } />
-            <Route path="/tribes" element={
+            <Route path="/clans" element={
               <ProtectedRoute>
-                <Tribes />
+                <Clans />
               </ProtectedRoute>
             } />
             <Route path="/data" element={

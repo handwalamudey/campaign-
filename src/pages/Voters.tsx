@@ -53,7 +53,7 @@ export default function Voters() {
   const isListView = searchParams.get('view') === 'list';
   const { voters, stations, addVoter, deleteVoter, addStation, fetchVoters, deleteAllVoters, isLoading, error } = useCampaignStore();
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterClan, setFilterClan] = useState<string>('all');
+  const [filterClan, setFilterClan] = useState<string>(searchParams.get('clan') || searchParams.get('tribe') || 'all');
   const [filterStation, setFilterStation] = useState<string>('all');
   const [filterFootballClub, setFilterFootballClub] = useState<boolean>(searchParams.get('footballClub') === 'true');
   const [filterPollingCenter, setFilterPollingCenter] = useState<string | null>(searchParams.get('pollingCenter'));
@@ -357,7 +357,7 @@ export default function Voters() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="tribe">Tribe</Label>
+                      <Label htmlFor="tribe">Clan (Legacy)</Label>
                       <Input
                         id="tribe"
                         value={formData.tribe}
@@ -533,7 +533,7 @@ export default function Voters() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Clans</SelectItem>
-                    {Array.from(new Set(voters.map(v => v.clan))).filter(Boolean).sort().map((clan) => (
+                    {Array.from(new Set(voters.map(v => v.clan || v.tribe))).filter(Boolean).sort().map((clan) => (
                       <SelectItem key={clan} value={clan}>
                         {clan}
                       </SelectItem>
@@ -693,7 +693,7 @@ export default function Voters() {
                         <TableHead>R.G</TableHead>
                         <TableHead>SUPPORT %</TableHead>
                         <TableHead className="hidden sm:table-cell">FOOTBALL CLUB</TableHead>
-                        <TableHead className={cn("hidden lg:table-cell", isSidebarCollapsed && "md:table-cell")}>TRIBE</TableHead>
+                        <TableHead className={cn("hidden lg:table-cell", isSidebarCollapsed && "md:table-cell")}>CLAN</TableHead>
                         <TableHead className={cn("hidden xl:table-cell", isSidebarCollapsed && "lg:table-cell")}>WARD</TableHead>
                         <TableHead className={cn("hidden xl:table-cell", isSidebarCollapsed && "lg:table-cell")}>POLLING CENTER</TableHead>
                         <TableHead className={cn("hidden xl:table-cell", isSidebarCollapsed && "lg:table-cell")}>STREAM</TableHead>
@@ -728,7 +728,7 @@ export default function Voters() {
                             </Badge>
                           </TableCell>
                           <TableCell className="hidden sm:table-cell">{displayOrBlank(voter.footballClub)}</TableCell>
-                          <TableCell className={cn("hidden lg:table-cell", isSidebarCollapsed && "md:table-cell")}>{displayOrBlank(voter.tribe)}</TableCell>
+                          <TableCell className={cn("hidden lg:table-cell", isSidebarCollapsed && "md:table-cell")}>{displayOrBlank(voter.clan || voter.tribe)}</TableCell>
                           <TableCell className={cn("hidden xl:table-cell", isSidebarCollapsed && "lg:table-cell")}>{displayOrBlank(voter.ward)}</TableCell>
                           <TableCell className={cn("hidden xl:table-cell", isSidebarCollapsed && "lg:table-cell")}>{displayOrBlank(voter.pollingCenter)}</TableCell>
                           <TableCell className={cn("hidden xl:table-cell", isSidebarCollapsed && "lg:table-cell")}>{displayOrBlank(voter.stream)}</TableCell>
